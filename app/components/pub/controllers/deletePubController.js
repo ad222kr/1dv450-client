@@ -30,7 +30,7 @@ function DeletePubController(PubService, AuthService, $location, FlashService, $
       .then(function(res) {
         var message = "<p>The pub was deleted!</p>";
         FlashService.createSuccessFlash(message);
-      
+        $rootScope.$broadcast("pubDeleted");
         $location.url("/pubs");
       })
       .catch(function(error) {

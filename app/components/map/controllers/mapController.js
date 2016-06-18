@@ -20,6 +20,7 @@ function MapController(NgMap, PubService, $scope, FlashService) {
     .getMap().
     then(function(map) {
       vm.map = map;
+      console.log(vm.map);
       PubService.getPubs()
         .then(function(data) {
 
@@ -57,6 +58,26 @@ function MapController(NgMap, PubService, $scope, FlashService) {
           FlashService.createErrorFlash(error);
         });
       
+    });
+
+    $scope.$on("pubDeleted", function(event) {
+      console.log(event);
+      console.log("delted pub");
+      PubService.getPubs()
+        .then(function(data) {
+          console.log(vm.markers);
+
+          vm.markers.forEach(function(marker) {
+            console.log(marker);
+            marker.marker.setMap(null);
+          });
+          vm.markers = [];
+          console.log(data.pubs);
+          initMarkers(data.pubs);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     });
 
 
